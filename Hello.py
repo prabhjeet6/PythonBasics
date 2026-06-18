@@ -1,5 +1,6 @@
 import math 
 import random
+import copy
 
 print('''Hello World!
 I am grateful''');
@@ -291,3 +292,25 @@ print(letters)
 
 letters.pop() # with no argument, removes and returns last value
 letters.pop(0) # removes and returns the value at passed index 
+
+letters=['c','b','a']
+letters.sort()
+print(letters)
+letters.sort(reverse=True)
+print(letters)
+
+# if we sort matrix, python sorts based on first element of every list in matrix
+matrix.sort();
+
+sorted_copy=sorted(letters,reverse=True); # sorted() creates a sorted copy, while sort() sorts the original list
+print("sorted copy:",sorted_copy)
+
+# reversed() creates a  reversed iterator which you pass to list(...) as argument to get reversed list, while reverse() 
+# reverses the original list
+letters.reverse();
+print("Original list reversed:",letters)
+reversed_copy=list(reversed(letters)); 
+print(reversed_copy)
+
+matrix_copy=matrix.copy() # provides a shallow copy of matrix
+matrix_copy=copy.deepcopy(matrix) # provides deep copy of matrix
