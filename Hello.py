@@ -63,8 +63,8 @@ print('ha'*3)#hahaha
 #String Slicing
 #Please note that end index is not included
 #String can be sliced from right hand side as well, in which case, index starts from -1
-str='hello'
-print(str[0::1]) # [<start>:<end>:<step>]
+hello_string='hello'
+print(hello_string[0::1]) # [<start>:<end>:<step>]
 
 " Python".lstrip();
 "Python ".rstrip();
@@ -314,3 +314,126 @@ print(reversed_copy)
 
 matrix_copy=matrix.copy() # provides a shallow copy of matrix
 matrix_copy=copy.deepcopy(matrix) # provides deep copy of matrix
+
+#Combining lists
+letters=['a','b','c']
+numbers=[1,2,3]
+combination=letters+numbers
+print(combination)
+
+numbers.extend(letters);
+print(numbers)
+
+print(letters*2)
+
+# Combining lists with nesting
+combination=[letters,numbers]
+print(combination)
+
+comb=list(zip(letters,numbers)) # zip creates a iterator of tuples from both lists. if length of list do not match, extra elemnts wont be paired
+print(comb)
+
+comb=list(zip(letters,numbers,"Hi")) # zip creates a iterator of tuples from both lists and the string. there are only two tuples as String has only two characters
+
+#Iterator
+print(list(enumerate(letters,start=1)))  # default start index is 0
+
+for index, value in enumerate(letters):
+    print(index,value)
+
+#reversed and zip return iterators and hence can be used directly instead of enumerating lists made from these 
+for l,n in zip(letters,numbers):
+    print(l,n)
+
+#Instead of looping, we use map to transform the list to capital letters
+print(list(map(str.upper,letters)))
+
+numbers=['1','2','3']
+print(list(map(int,numbers))) # convert numbers list to int data type
+
+#map also returns iterator, hence converting to list
+names=[' Maria ','John ','kumar ']
+print(list(map(str.strip,names)))
+
+letters=['a','','b','c',None,False]
+print(list(filter(None,letters))) #returns [a,b,c]
+
+letters=['a','','b','c',None,False]
+print(list(filter(bool,letters))) #again returns [a,b,c] because None,0 False and empty strings are considered False boolean
+
+#Lambda : anonymous functions
+
+#examples:
+
+multiple=lambda x: x*2;
+print(multiple(2))
+
+add= lambda x,y:x+y;
+print(add(2,3))
+
+check=lambda i: i in 'python'
+print(check('p'))
+
+prices=['$12.50','$9.99','$100.00']
+
+print(list(map(lambda p:float(p.replace('$','')),prices)))
+
+domains=['www.google.com','openai.com','localhost','WWW.DATAWITHBARAA.COM']
+#comprehension
+cleaned=[
+    d.lower().replace('www.','')
+    for d in domains
+]
+print(cleaned)
+
+cleaned=[
+    d
+    for d in domains
+      if '.' in d
+]
+print(cleaned)
+
+#Tuple: tuples are immutable
+
+# Set{}: unordered collection of unique values,set is not indexed,hence can't be accessed with an index
+a={1,2,3}
+a.add(10) #adds one value,if unique
+a.update({1,2,4}) #adds unique values of a collection
+a.update("Hi") #adds each character of String separately, if unique
+a |={6,7} # same as update, different syntax
+
+a.remove(1)  #removes value from set, but gives error if value is not found
+a.discard(100) #removes value, ignores otherwise 
+
+a={10,20,30,40,50}
+b={30,40,50,60}
+
+print(a.union(b)) 
+print(a | b)
+
+print(a.intersection(b))
+print(a & b)
+
+print(a.difference(b))
+print(a - b )
+
+print(a.symmetric_difference(b))
+print(a ^ b) # collection of unique items in both
+
+a={1,2,}
+b={1,2,3,4}
+
+print(a.issubset(b))
+print(b.issuperset(a))
+
+print(a.isdisjoint(b)) # true if nothing in common
+
+# Dictionary{}: ordered, indexed by keys,mutable
+
+user={"id":1,"age":30,"city":"berlin"}
+print(user["city"]) #will give error if key is not found
+print(user.get("name"))#wont error out if key is not found
+print(user.get("name","unknown")) #if key is not found, gives default value instead of null
+print(user.keys())
+print(user.values())
+print(user.items())
