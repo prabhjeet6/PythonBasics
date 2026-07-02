@@ -2,6 +2,7 @@ import math
 import random
 import copy
 
+#python follows pep 8 styling
 print('''Hello World!
 I am grateful''');
 print('Hello','\bworld')
@@ -437,3 +438,189 @@ print(user.get("name","unknown")) #if key is not found, gives default value inst
 print(user.keys())
 print(user.values())
 print(user.items())
+
+for u in user:
+    print(u,user[u])
+
+for key,value in user.items():
+    print(key,value)
+
+user["name"]="John Doe" #Add
+user.update({"age":2,"city":"Paris"})
+
+user={"id":1,"name":"John","age ":30,"city":"Berlin"}
+
+user_str={
+    k:v.upper() #Expression
+    for k,v in user.items() #loop
+    if isinstance(v,str) #Filter
+}
+print(user_str) 
+
+#Functions:
+def clean_name(first_name,last_name,country="NA"): # variables with default values should be declared after other variables have been declared, not in between
+    first=first_name.strip().lower()
+    last=last_name.strip().lower()
+    full_name=first+" "+last
+    print(full_name,"From",country)
+
+#Positional Arguments
+clean_name("Maria","Smith","DE")
+
+#keyword Arguments:
+clean_name(country="DE",first_name=" MariA ",last_name=" smIth ")
+
+clean_name("John","Doe") #will use default value for country
+
+def calc(*args): # variable arguments
+    print(sum(args))
+
+calc(1,2,3)
+calc(1,2)
+
+
+
+def create_user(**kwargs): # keyword args (variable  keyword arguments for user defined types
+    print(type(kwargs)) # Dictionary
+    print(kwargs)
+
+create_user(first_name="Mo",last_name="Salah",age=33,country="Egypt")
+create_user(first_name="Ronaldo",country="Portugal")
+
+# function with multiple return values
+def clean_name(name):
+    low_cleaned=name.strip().lower()
+    up_cleaned=name.strip().upper()
+    return low_cleaned, up_cleaned
+
+low_cleaned,up_cleaned=clean_name(" mariA  ")
+print(low_cleaned)
+print(up_cleaned)
+
+def write_log(message: str): #data type hint
+    """Description of function, similar to Java Doc"""
+    with open(r"D:\app.log","a") as file:
+              file.write(message+"\n")
+
+write_log("user logged in")
+
+help(write_log)
+
+class Employee:
+    #pass # keyword for compiler to stop complaining kind of TODO
+    num_of_emps=0
+    raise_amount=1.04 #class variable, Java's static equivalent
+    def __init__(self,first,last,pay): #constructor by default we pass first argument as self
+        self.first=first
+        self.last=last
+        self.pay=pay 
+        Employee.num_of_emps+=1 
+
+    @property    
+    def fullname(self):
+        return '{} {}'.format(self.first,self.last)
+    
+    def apply_raise(self):
+        self.pay=int(self.pay*self.raise_amount) #can also use Employee.raise_amount
+    
+    @classmethod #decorator
+    def set_raise_ant(cls,amount): #pass cls as first arg
+        cls.raise_amt=amount
+    
+    @classmethod
+    def from_string(cls,emp_str):
+        first,last,pay=emp_str.split('-')
+        return cls(first,last,pay)
+
+    @staticmethod
+    def is_workday(day):
+        if day.weekday()==5 or day.weekday()==6:
+            return False
+        return True
+    
+    def __repr__(self): #repr is fallback for __str__ if __str__ implementation is missing
+        return "Employee('{}','{}','{}')".format(self.first,self.last,self.pay)
+
+    def __str__(self):
+        return '{}-{}'.format(self.fullname,self.pay)
+    
+    @property # allows email to be treated as a property.
+    def email(self): 
+        return '{}.{}@email.com'.format(self.first,self.last)
+    
+
+    @fullname.setter #setter method annotation
+    def fullname(self,name): # setter method that sets first and last name from fullname
+        first, last=name.split(' ')
+        self.first=first
+        self.last=last
+
+
+class Developer(Employee):
+    raise_amt=1.10
+
+    def __init__(self,first,last,pay,programming_language):
+        super().__init__(first,last,pay)
+        self.programming_language=programming_language
+
+dev_1=Developer('Corey','Schafer',50000,'Java')
+
+class Manager(Employee):
+    def __init__(self, first, last, pay,employees=None): #dunder init
+        super().__init__(first, last, pay)
+        if employees is None:
+            employees=[]
+        else:
+            self.employees=employees
+    
+    def add_emp(self,emp):
+        if emp not in self.employees:
+            self.employees.append(emp)
+
+    def remove_emp(self,emp):
+        if emp in self.employees:
+            self.employees.remove(emp)
+
+    def print_emp(self):
+        for emp in self.employees:
+            print('-->',emp.__dict__)
+    
+
+
+import datetime
+my_date=datetime.date(2016,7,11)
+print(Employee.is_workday(my_date))
+
+emp_1=Employee('prabhjeet','singh',200000)
+
+print(emp_1.fullname) # as fullname is marked as property, it should be accessed without paranthesis
+print(Employee.fullname)
+print(emp_1.apply_raise())
+
+emp_string='john-doe-30'
+new_emp_1=Employee.from_string(emp_string)
+
+print(dev_1.first) 
+print(help(Developer)) 
+
+mgr_1=Manager('Sue','Smith',9000,[dev_1])
+mgr_1.print_emp
+
+print(issubclass(Manager,Employee))
+print(isinstance(mgr_1,Employee))
+
+
+print(repr(emp_1))
+print(str(emp_1))
+
+############################
+
+f=open('test.txt','r') 
+# r  - read
+# w  - write
+# r+ - read and write
+# a  - append
+
+#print(f.name, f.mode)
+
+f.close()
